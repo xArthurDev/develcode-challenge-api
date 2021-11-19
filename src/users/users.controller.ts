@@ -1,15 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { UsersService } from './users.service';
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { User } from './users.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
@@ -29,6 +20,12 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async getUserDetails(@Param('id') id): Promise<any> {
+    return this.usersService.getUserDetails(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Put('update/:id')
   async updateUser(@Param('id') id, @Body() userData: User): Promise<any> {
     return this.usersService.updateUser(userData);
@@ -40,3 +37,4 @@ export class UsersController {
     return this.usersService.deleteUser(id);
   }
 }
+

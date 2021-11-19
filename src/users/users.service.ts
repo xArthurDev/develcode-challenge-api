@@ -38,4 +38,8 @@ export class UsersService {
   async getUserDetailsByUsername(username: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ username });
   }
+
+  async getUserDetails(id: string) {
+    return this.usersRepository.findOne(id)
+  }
 }
