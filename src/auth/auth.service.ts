@@ -15,10 +15,12 @@ export class AuthService {
   async validateUser(username: string, pass: string) {
     const user = await this.usersService.getUserDetailsByUsername(username);
 
-    const isPasswordMatch = await bcrypt.compare(pass, user.password)
-    if (user && isPasswordMatch) {
-      const { password, ...result } = user;
-      return result;
+    if (user) {
+      const isPasswordMatch = await bcrypt.compare(pass, user.password)
+      if (isPasswordMatch) {
+        const { password, ...result } = user;
+        return result;
+      }
     }
 
     throw new HttpException('Incorrect password or username', HttpStatus.UNAUTHORIZED);
